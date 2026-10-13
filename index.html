@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10233f">
+<title>乙4・7日間合格チャレンジ</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f1f5f9;color:#182235}.wrap{max-width:680px;margin:auto;padding:18px}.hero{background:linear-gradient(135deg,#10233f,#176b87);color:white;padding:24px;border-radius:22px}.hero h1{font-size:25px;margin:8px 0}.muted{color:#64748b;font-size:14px}.hero .muted{color:#d8e8f3}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.stat,.card{background:white;border-radius:16px;padding:15px;box-shadow:0 3px 14px #10233f0d}.stat b{display:block;font-size:23px;margin-top:5px}.tabs{display:flex;gap:7px;overflow:auto;margin:15px 0}.tabs button{white-space:nowrap}.btn{border:0;border-radius:11px;padding:12px 15px;background:#e2e8f0;color:#182235;font-size:15px;font-weight:700;cursor:pointer}.primary{background:#087e8b;color:white}.tabs .active{background:#10233f;color:white}.card{margin:12px 0}.tag{display:inline-block;background:#dff5f3;color:#087e8b;padding:5px 9px;border-radius:8px;font-size:12px;font-weight:700}.question{font-size:19px;line-height:1.65;font-weight:700;margin:14px 0}.option{display:block;width:100%;text-align:left;margin:9px 0;padding:13px;border:1px solid #dbe3ec;background:white;border-radius:12px;font-size:15px;color:#182235}.option:disabled{opacity:1}.correct{border-color:#16804a;background:#e4f8eb}.wrong{border-color:#c43c43;background:#fff0f0}.explain{background:#f1f5f9;padding:13px;border-radius:12px;line-height:1.7;margin-top:12px}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.row button{flex:1}.progress{height:9px;background:#e2e8f0;border-radius:9px;overflow:hidden}.progress div{height:100%;background:#0e9a91;width:0}h2{font-size:20px}footer{text-align:center;color:#64748b;font-size:12px;padding:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero"><span class="tag">7 DAYS CHALLENGE</span><h1>危険物乙4 合格トレーニング</h1><p class="muted">毎日コツコツ解いて、苦手を減らそう。</p><div class="progress"><div id="bar"></div></div><p class="muted" id="summary">問題に挑戦しよう！</p></header>
+<div class="stats"><div class="stat"><span class="muted">回答数</span><b id="answered">0</b></div><div class="stat"><span class="muted">正解数</span><b id="correct">0</b></div><div class="stat"><span class="muted">正答率</span><b id="rate">0%</b></div></div>
+<nav class="tabs"><button class="btn active" data-tab="quiz">問題演習</button><button class="btn" data-tab="review">間違い復習</button><button class="btn" data-tab="plan">7日間計画</button></nav>
+<main id="app"></main>
+<footer>学習用の練習問題です。最新の試験案内・法令も必ず確認してください。</footer>
+</div>
+<script>
+const questions=[
+{c:"法令",q:"製造所等で危険物を取り扱う場合、原則として必要なものはどれ？",o:["市町村長等の許可","近隣住民全員の同意","国会の承認","消防設備士の免許"],a:0,e:"製造所・貯蔵所・取扱所を設置する場合は、原則として市町村長等の許可が必要です。"},
+{c:"法令",q:"ガソリンの指定数量はどれ？",o:["200 L","400 L","1,000 L","2,000 L"],a:0,e:"ガソリンは第4類・第一石油類（非水溶性）で、指定数量は200 Lです。"},
+{c:"法令",q:"灯油の指定数量はどれ？",o:["200 L","400 L","1,000 L","2,000 L"],a:2,e:"灯油は第4類・第二石油類（非水溶性）で、指定数量は1,000 Lです。"},
+{c:"法令",q:"軽油の指定数量はどれ？",o:["200 L","400 L","1,000 L","2,000 L"],a:2,e:"軽油は第4類・第二石油類（非水溶性）で、指定数量は1,000 Lです。"},
+{c:"法令",q:"アルコール類の指定数量はどれ？",o:["200 L","400 L","1,000 L","2,000 L"],a:1,e:"アルコール類の指定数量は400 Lです。"},
+{c:"法令",q:"危険物保安監督者になれる人の条件として正しいものは？",o:["誰でもよい","甲種または該当する乙種免状を持ち、実務経験がある","乙4を持てば経験不要","消防団員であればよい"],a:1,e:"必要な種類の危険物取扱者免状に加え、原則として6か月以上の実務経験が必要です。"},
+{c:"法令",q:"指定数量以上の危険物を貯蔵・取り扱う場所について正しいものは？",o:["自由に設置できる","原則、許可を受けた製造所等で行う","屋外なら規制されない","夜間なら規制されない"],a:1,e:"指定数量以上の危険物は、消防法令に適合した製造所等で貯蔵・取扱いを行います。"},
+{c:"法令",q:"危険物を運搬する際の容器について正しいものは？",o:["どんな容器でもよい","危険物の性質に適した基準に合う容器を使う","ふたは不要","容器の表示は不要"],a:1,e:"運搬容器は危険物の性質に適合し、法令の基準を満たす必要があります。"},
+{c:"法令",q:"危険物施設で火災などの危険を発見した場合、重要な対応は？",o:["その場を撮影する","危険を知らせ、必要な通報・応急措置を行う","黙って作業を続ける","必ず一人で消火する"],a:1,e:"周囲に知らせ、通報や安全を確保した応急措置を行います。無理な消火は避けます。"},
+{c:"法令",q:"ガソリンの蒸気について正しいものは？",o:["空気より重い","空気より軽い","必ず無害","水に完全に溶ける"],a:0,e:"ガソリン蒸気は空気より重く、低い場所にたまりやすいため注意が必要です。"},
+{c:"法令",q:"危険物の類別で、第4類に分類されるものは？",o:["酸化性固体","可燃性固体","引火性液体","酸化性液体"],a:2,e:"第4類は引火性液体です。"},
+{c:"法令",q:"危険物の指定数量の倍数を求める式は？",o:["危険物の量÷指定数量","指定数量÷危険物の量","量＋指定数量","量×指定数量"],a:0,e:"各危険物の貯蔵・取扱量をそれぞれの指定数量で割り、その倍数を合算します。"},
+{c:"物理・化学",q:"燃焼の三要素に含まれないものは？",o:["可燃物","酸素供給源","点火源","窒素"],a:3,e:"燃焼には可燃物、酸素供給源、点火源が必要です。"},
+{c:"物理・化学",q:"引火点とは何を示す温度？",o:["液体が凍る温度","液体から出た蒸気が点火源で引火する最低温度","自然発火する温度","沸騰する温度"],a:1,e:"引火点は、液体が可燃性蒸気を発生し、点火源により引火する最低温度です。"},
+{c:"物理・化学",q:"発火点の説明として正しいものは？",o:["火を近づけなくても燃焼が始まる最低温度","凍結する温度","沸騰する温度","引火が止まる温度"],a:0,e:"発火点は、点火源なしに自ら燃焼を開始する最低温度を指します。"},
+{c:"物理・化学",q:"静電気による火災を防ぐ方法として適切なのは？",o:["絶縁物をこすり続ける","接地などで静電気を逃がす","乾燥を強める","蒸気をためる"],a:1,e:"接地や導電性の確保などにより、静電気の蓄積と放電を防ぎます。"},
+{c:"物理・化学",q:"一般に、燃焼反応はどのような反応？",o:["吸熱反応","発熱反応","必ず冷却する反応","化学変化ではない"],a:1,e:"燃焼は通常、熱や光を放出する発熱反応です。"},
+{c:"物理・化学",q:"液体が沸騰する条件は？",o:["蒸気圧が外圧に等しくなる","温度が必ず0℃になる","密度が0になる","酸素がなくなる"],a:0,e:"液体の蒸気圧が外圧と等しくなると沸騰します。"},
+{c:"物理・化学",q:"比重が1より小さい液体は、水に浮くか沈むか？",o:["原則浮く","必ず沈む","必ず溶ける","判断できず、必ず沈む"],a:0,e:"水との比較で比重が1より小さい液体は、一般に水に浮きます。水に溶けるかどうかは別の性質です。"},
+{c:"物理・化学",q:"燃焼範囲について正しい説明は？",o:["燃焼できる蒸気濃度の範囲","液体の重さの範囲","容器の容量","火炎の長さ"],a:0,e:"可燃性蒸気が空気中で燃焼できる濃度には、下限と上限があります。"},
+{c:"物理・化学",q:"熱が物質の移動を伴って伝わる現象は？",o:["熱伝導","対流","放射","凝固"],a:1,e:"対流は液体や気体などの流れによって熱が運ばれる現象です。"},
+{c:"物理・化学",q:"熱が電磁波によって伝わる現象は？",o:["熱伝導","対流","放射","融解"],a:2,e:"放射は電磁波による熱移動で、真空中でも伝わります。"},
+{c:"物理・化学",q:"酸化とは一般にどのような変化？",o:["酸素を失うだけ","酸素と結びつく、または電子を失う変化","必ず冷える変化","物質が溶ける変化"],a:1,e:"酸化は酸素との結合や電子の喪失などで説明されます。"},
+{c:"物理・化学",q:"一酸化炭素について正しいものは？",o:["無害である","有毒である","必ず無臭ではない","水だけである"],a:1,e:"一酸化炭素は有毒です。不完全燃焼などで発生することがあります。"},
+{c:"性質・消火",q:"ガソリンの性質として正しいものは？",o:["引火しにくい","揮発しやすく、蒸気に引火しやすい","水に完全に溶ける","不燃性である"],a:1,e:"ガソリンは揮発性が高く、蒸気に引火しやすい危険物です。"},
+{c:"性質・消火",q:"灯油の分類はどれ？",o:["特殊引火物","第一石油類","第二石油類","アルコール類"],a:2,e:"灯油は第4類の第二石油類に分類されます。"},
+{c:"性質・消火",q:"軽油の分類はどれ？",o:["第一石油類","第二石油類","第三石油類","動植物油類"],a:1,e:"軽油は第4類の第二石油類です。"},
+{c:"性質・消火",q:"重油の分類はどれ？",o:["特殊引火物","第一石油類","第三石油類","アルコール類"],a:2,e:"重油は第4類の第三石油類です。"},
+{c:"性質・消火",q:"アセトンの性質として正しいものは？",o:["水に全く溶けない","水とよく混ざり、引火性がある","不燃性である","固体である"],a:1,e:"アセトンは水によく溶ける引火性液体で、第一石油類（水溶性）です。"},
+{c:"性質・消火",q:"アルコール類の消火で泡消火剤を使う場合に注意することは？",o:["水溶性液体に適した泡を選ぶ","どんな泡でも同じ","必ず砂糖を加える","換気を止めて近づく"],a:0,e:"アルコールなどの水溶性液体には、対応する泡消火剤を選ぶ必要があります。"},
+{c:"性質・消火",q:"油火災に水を直接かけることが危険な理由は？",o:["燃料が飛び散り火災が拡大するおそれ","水が燃えるため","酸素が増えないためだけ","油が必ず凍るため"],a:0,e:"水で燃えている油が飛び散り、火災が拡大するおそれがあります。"},
+{c:"性質・消火",q:"二酸化炭素消火器の主な消火作用は？",o:["窒息作用","燃料を追加する作用","油を加熱する作用","酸素を発生させる作用"],a:0,e:"二酸化炭素は酸素濃度を下げる窒息作用などにより消火します。"}
+];
+const plans=[["法令の基礎","指定数量・標識・許可の基本を覚える"],["法令の続き","免状・保安監督者・運搬の規則を復習"],["物理・化学①","燃焼三要素・引火点・発火点"],["物理・化学②","熱・静電気・燃焼範囲"],["第4類の性質","ガソリン・灯油・軽油・重油・アルコール"],["消火と弱点","消火方法を復習し、間違い問題を解き直す"],["総仕上げ","全問題を再挑戦し、苦手分野を確認"]];
+let idx=0,tab="quiz",selected=null,shuffled=[...questions],answers=JSON.parse(localStorage.getItem("o4answers")||"{}"),miss=JSON.parse(localStorage.getItem("o4miss")||"[]");
+function stats(){let vals=Object.values(answers),n=vals.length,c=vals.filter(v=>v).length;document.getElementById("answered").textContent=n;document.getElementById("correct").textContent=c;document.getElementById("rate").textContent=(n?Math.round(c/n*100):0)+"%";document.getElementById("bar").style.width=(n/questions.length*100)+"%";document.getElementById("summary").textContent="全"+questions.length+"問中 "+n+"問回答";}
+function render(){stats();document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));let app=document.getElementById("app");if(tab==="plan"){app.innerHTML="<div class=card><h2>7日間の学習計画</h2><p class=muted>目安は毎日60〜90分。正答率だけでなく、間違いの理由も確認しよう。</p>"+plans.map((p,i)=>`<div class=card><span class=tag>DAY ${i+1}</span><h3>${p[0]}</h3><p>${p[1]}</p><label><input type=checkbox data-day=${i} ${localStorage.getItem("o4day"+i)==="1"?"checked":""}> 今日の学習を完了</label></div>`).join("")+"</div>";app.querySelectorAll("[data-day]").forEach(x=>x.onchange=()=>localStorage.setItem("o4day"+x.dataset.day,x.checked?"1":"0"));return}
+if(tab==="review"){let list=miss.map(i=>({q:questions[i],i}));app.innerHTML="<div class=card><h2>間違い復習</h2><p>間違えた問題："+list.length+"問</p>"+(list.length?list.map(({q,i})=>`<div class=card><span class=tag>${q.c}</span><p class=question>${q.q}</p><p><b>正解：</b>${q.o[q.a]}</p><p>${q.e}</p><button class=btn data-go=${i}>この問題を解く</button></div>`).join(""):"<p>今は間違い問題がないよ。問題演習に挑戦しよう！</p>")+"<button class=btn id=clear>間違いリストをクリア</button></div>";app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{idx=+b.dataset.go;tab="quiz";selected=null;render()});document.getElementById("clear").onclick=()=>{miss=[];localStorage.setItem("o4miss","[]");render()};return}
+let q=shuffled[idx];if(!q){app.innerHTML="問題がありません";return}let qi=questions.indexOf(q),done=answers[qi]!==undefined;app.innerHTML=`<div class=card><span class=tag>${q.c}</span><span class=muted>　問題 ${idx+1} / ${shuffled.length}</span><p class=question>${q.q}</p><div id=opts>${q.o.map((v,i)=>`<button class="option ${done&&i===q.a?"correct":""}" data-opt=${i} ${done?"disabled":""}>${["A","B","C","D"][i]}. ${v}</button>`).join("")}</div><div id=feedback>${done?`<div class=explain><b>${answers[qi]?"正解！":"不正解"}</b><p>正解：${q.o[q.a]}</p>${q.e}</div>`:""}</div><div class=row><button class=btn id=prev>前の問題</button><button class="btn primary" id=next>${idx===shuffled.length-1?"最初から":"次の問題"}</button></div></div><div class=card><b>学習のコツ</b><p class=muted>答えを覚えるだけでなく、解説を読んで理由を理解しよう。</p></div>`;
+app.querySelectorAll("[data-opt]").forEach(b=>b.onclick=()=>{if(answers[qi]!==undefined)return;let a=+b.dataset.opt,ok=a===q.a;selected=a;answers[qi]=ok;if(!ok&&!miss.includes(qi))miss.push(qi);if(ok)miss=miss.filter(x=>x!==qi);localStorage.setItem("o4answers",JSON.stringify(answers));localStorage.setItem("o4miss",JSON.stringify(miss));render()});document.getElementById("prev").onclick=()=>{idx=(idx-1+shuffled.length)%shuffled.length;selected=null;render()};document.getElementById("next").onclick=()=>{idx=idx===shuffled.length-1?0:idx+1;selected=null;render()}}
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render()});render();
+</script>
+</body>
+</html>
